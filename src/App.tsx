@@ -3,6 +3,7 @@ import { Login } from './features/auth/pages/Login'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from './core/providers/theme-provider'
 import Layout from './core/components/Layout'
+import Home from './core/pages/Home'
 
 function App() {
     return (
@@ -11,7 +12,7 @@ function App() {
                 <Toaster />
                 <Routes>
                     <Route path='/' element={<Layout />}>
-                        <Route path='/' element={<Login />} />
+                        <Route path='/' element={<Home />} />
                     </Route>
                 </Routes>
                 <Routes>

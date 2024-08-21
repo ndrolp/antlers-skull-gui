@@ -13,7 +13,7 @@ import SidebarMenu from './SidebarMenu'
 
 export function MobileSidebar() {
     return (
-        <div className='grid grid-cols-2 gap-2 lg:hidden'>
+        <div className='grid grid-cols-2 gap-2 md:hidden'>
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant='outline' size='icon'>

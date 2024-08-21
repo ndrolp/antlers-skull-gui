@@ -1,7 +1,6 @@
 import Sidebar from './Sidebar'
-import { Button } from '@/components/ui/button'
-import { Link, Outlet } from 'react-router-dom'
-import { MobileSidebar } from './MobileSidebar'
+import Header from './Header'
+import { Outlet } from 'react-router-dom'
 
 export default function Layout() {
     return (
@@ -10,12 +9,7 @@ export default function Layout() {
                 <Sidebar />
             </div>
             <main className='w-full h-full flex flex-col gap-0'>
-                <div className='border-b w-full p-4 flex justify-between sticky'>
-                    <MobileSidebar />
-                    <Link to='/login'>
-                        <Button>Login</Button>
-                    </Link>
-                </div>
+                <Header />
                 <div className='p-4 '>
                     <Outlet />
                 </div>

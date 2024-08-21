@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import LoginForm from '../components/LoginForm'
 import { Button } from '@/components/ui/button'
-import { MoonStar, Settings } from 'lucide-react'
+import { Settings } from 'lucide-react'
 import {
     Dialog,
     DialogContent,
@@ -11,10 +11,9 @@ import {
 } from '@/components/ui/dialog'
 import { ConfigForm } from '../components/ConfigForm'
 import useIsElectron from '@/core/hooks/useIsElectron'
-import { useTheme } from '@/core/hooks/useTheme'
+import ThemeButton from '@/core/components/ThemeButton'
 
 export const Login = () => {
-    const { toggleTheme } = useTheme()
     const isElectron = useIsElectron()
     return (
         <div className=' p-10 bg-red grid place-items-center w-full h-svh'>
@@ -36,15 +35,7 @@ export const Login = () => {
                 ) : (
                     ''
                 )}
-                <Button
-                    onClick={() => {
-                        toggleTheme()
-                    }}
-                    variant='outline'
-                    size='icon'
-                >
-                    <MoonStar className='h-4 w-4' />
-                </Button>
+                <ThemeButton />
             </div>
             <Card className='min-w-[25%]'>
                 <CardHeader>

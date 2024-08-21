@@ -10,12 +10,12 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog'
 import { ConfigForm } from '../components/ConfigForm'
-import { useTheme } from '@/core/hooks/useTheme'
 import useIsElectron from '@/core/hooks/useIsElectron'
+import { useTheme } from '@/core/hooks/useTheme'
 
 export const Login = () => {
+    const { toggleTheme } = useTheme()
     const isElectron = useIsElectron()
-    const [, toggleTheme] = useTheme()
     return (
         <div className=' p-10 bg-red grid place-items-center w-full h-svh'>
             <div className='fixed top-2 right-2 flex gap-2'>

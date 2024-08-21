@@ -11,7 +11,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import useGetConfig from '@/core/hooks/useGetConfig'
+import useGetConfig, { ConfigType } from '@/core/hooks/useGetConfig'
+import { setConfig } from '@/core/lib/setConfig'
 const configSchema = z.object({
     url: z.string().min(1, {
         message: 'Username is required',
@@ -30,7 +31,11 @@ export function ConfigForm() {
         },
     })
 
-    const onSubmit = () => { }
+    const onSubmit = (values: ConfigType) => {
+        if (setConfig(values)) {
+            alert('Configuración cambiada')
+        }
+    }
 
     return (
         <Form {...form}>

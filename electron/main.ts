@@ -76,6 +76,20 @@ app.whenReady().then(() => {
     createWindow()
 
     // Menu.setApplicationMenu(Menu.buildFromTemplate([]))
+    ipcMain.handle('set-config', async (_event, args) => {
+        try {
+            const homeDir = os.homedir()
+            const configFilePath = path.join(
+                homeDir,
+                '.config',
+                '.antlers.gui.json',
+            )
+            fs.writeFileSync(configFilePath, args)
+            return true
+        } catch (error) {
+            return false
+        }
+    })
 
     ipcMain.handle('get-config', async () => {
         const homeDir = os.homedir()
@@ -87,8 +101,7 @@ app.whenReady().then(() => {
         if (!fs.existsSync(configFilePath)) {
             return {}
         }
-        console.log(configFilePath)
         const value = fs.readFileSync(configFilePath, 'utf-8')
-        return JSON.parse(value)
+        return JSON.parse(value ?? {})
     })
 })

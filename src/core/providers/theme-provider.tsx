@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 type Theme = 'dark' | 'light' | 'system'
 
@@ -66,9 +66,7 @@ export function ThemeProvider({
                 : 'light'
 
             const currentTheme = theme === 'system' ? systemTheme : theme
-            console.log({ systemTheme })
             const nextTheme: Theme = currentTheme === 'dark' ? 'light' : 'dark'
-            console.log({ nextTheme })
             localStorage.setItem(storageKey, nextTheme)
             setTheme(nextTheme)
         },

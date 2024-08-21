@@ -1,9 +1,8 @@
-import { Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './features/auth/pages/Login'
-import { BrowserRouter, Link } from 'react-router-dom'
-import { Button } from './components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from './core/providers/theme-provider'
+import Layout from './core/components/Layout'
 
 function App() {
     return (
@@ -11,14 +10,9 @@ function App() {
             <BrowserRouter>
                 <Toaster />
                 <Routes>
-                    <Route
-                        path='/'
-                        element={
-                            <Link to='/login'>
-                                <Button>Login</Button>
-                            </Link>
-                        }
-                    />
+                    <Route path='/' element={<Layout />}>
+                        <Route path='/' element={<Login />} />
+                    </Route>
                 </Routes>
                 <Routes>
                     <Route path='/login' element={<Login />} />

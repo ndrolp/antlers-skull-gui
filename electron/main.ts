@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu } from 'electron'
 // import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -74,6 +74,13 @@ app.on('activate', () => {
 
 app.whenReady().then(() => {
     createWindow()
+    Menu.setApplicationMenu(Menu.buildFromTemplate([]))
+    globalShortcut.register('CommandOrControl+Shift+I', () => {
+        // Toggle Developer Tools
+        if (win) {
+            win.webContents.toggleDevTools()
+        }
+    })
 
     // Menu.setApplicationMenu(Menu.buildFromTemplate([]))
     ipcMain.handle('set-config', async (_event, args) => {

@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useNavigate } from 'react-router-dom'
 
 const loginSchema = z.object({
     username: z.string().min(1, {
@@ -29,9 +30,11 @@ export function LoginForm() {
             password: '',
         },
     })
+    const navigate = useNavigate()
 
     const onSubmit = (values: z.infer<typeof loginSchema>) => {
         console.log(values)
+        navigate('/')
     }
 
     return (
@@ -68,7 +71,7 @@ export function LoginForm() {
                     )}
                 />
                 <Button className='w-full' type='submit'>
-                    Submit
+                    Login
                 </Button>
             </form>
         </Form>

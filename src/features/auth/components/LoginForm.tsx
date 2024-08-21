@@ -11,7 +11,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthProviderContext } from '@/core/providers/auth-provider'
 
 const loginSchema = z.object({
     username: z.string().min(1, {
@@ -23,6 +25,7 @@ const loginSchema = z.object({
 })
 
 export function LoginForm() {
+    const { loginUser } = useContext(AuthProviderContext)
     const form = useForm < z.infer < typeof loginSchema >> ({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -30,11 +33,12 @@ export function LoginForm() {
             password: '',
         },
     })
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const onSubmit = (values: z.infer<typeof loginSchema>) => {
-        console.log(values)
-        navigate('/')
+        // console.log(values)
+        loginUser(values.username, values.password)
+        // navigate('/')
     }
 
     return (

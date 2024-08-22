@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useGetConfig from '../hooks/useGetConfig'
 import { useToast } from '@/components/ui/use-toast'
@@ -13,6 +13,7 @@ type AuthProviderState = {
     tokens?: LoginResponse
     decodedToken?: TokenParsed
     setTokens: React.Dispatch<React.SetStateAction<LoginResponse>>
+    logout: () => void
 }
 
 type User = {
@@ -38,26 +39,26 @@ const initialState: AuthProviderState = {
     loginUser: async () => { },
     tokens: {},
     setTokens: () => { },
+    logout: () => { },
 }
 
 export const AuthProviderContext =
     createContext<AuthProviderState>(initialState)
 
 export function AuthProvider({ children }: AuthProviderProps) {
+    const navigate = useNavigate()
     const { toast } = useToast()
     const [tokens, setTokens] = useState<LoginResponse>({
-        token: localStorage.getItem('token') ?? '',
-        refresh: localStorage.getItem('refresh') ?? '',
+        token: localStorage.getItem('token') ?? undefined,
+        refresh: localStorage.getItem('refresh') ?? undefined,
     })
     const decodedToken: TokenParsed | undefined = useMemo(() => {
         const decoded: TokenParsed | undefined = tokens?.token
             ? jwtDecode(tokens?.token ?? '')
             : undefined
-        console.log(decoded)
         return decoded
     }, [tokens?.token])
     const config = useGetConfig()
-    const navigate = useNavigate()
     const loginUser = async (username: string, password: string) => {
         const response = await fetch(
             `${config?.url ?? 'http://localhost:4000'}/api/v1/auth/login/`,
@@ -86,12 +87,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
             })
         }
     }
+    const logout = useCallback(() => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('refresh')
+        navigate('/login')
+    }, [navigate])
+
+    useEffect(() => {
+        if (!tokens.token) {
+            logout()
+        }
+    }, [tokens?.token, logout])
 
     const value = {
         loginUser,
         tokens,
         decodedToken,
         setTokens,
+        logout,
     }
 
     return (

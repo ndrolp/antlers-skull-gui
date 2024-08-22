@@ -2,10 +2,11 @@ import { LogOutIcon } from 'lucide-react'
 import SidebarMenu from './SidebarMenu'
 import { SidebarUser } from './SidebarUser'
 import { Button } from '@/components/ui/button'
-import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthProviderContext } from '../providers/auth-provider'
 
 export default function Sidebar() {
-    const navigate = useNavigate()
+    const { logout } = useContext(AuthProviderContext)
     return (
         <div className='fixed flex flex-col w-[300px]  min-h-screen min-w-[300px]'>
             <SidebarUser />
@@ -15,7 +16,7 @@ export default function Sidebar() {
             <div className='px-4 py-3 border-t'>
                 <Button
                     onClick={() => {
-                        navigate('/login')
+                        logout()
                     }}
                     variant='ghost'
                     className='flex w-full gap-2 justify-start p-2'

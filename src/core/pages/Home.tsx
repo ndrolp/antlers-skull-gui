@@ -1,3 +1,17 @@
+import { Button } from '@/components/ui/button'
+import useAxios from '../hooks/useAxios'
+
 export default function Home() {
-    return <div>Home</div>
+    const axios = useAxios()
+    return (
+        <div>
+            <Button
+                onClick={() => {
+                    axios.post('/users')
+                }}
+            >
+                TestAxios
+            </Button>
+        </div>
+    )
 }

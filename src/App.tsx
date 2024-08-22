@@ -5,6 +5,7 @@ import { ThemeProvider } from './core/providers/theme-provider'
 import Layout from './core/components/Layout'
 import Home from './core/pages/Home'
 import { AuthProvider } from './core/providers/auth-provider'
+import { ConfigForm } from './features/auth/components/ConfigForm'
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Layout />}>
                             <Route path='/' element={<Home />} />
+                            <Route path='/settings' element={<ConfigForm />} />
                         </Route>
                     </Routes>
                     <Routes>

@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useGetConfig from '../hooks/useGetConfig'
 import { useToast } from '@/components/ui/use-toast'
@@ -12,6 +12,7 @@ type AuthProviderState = {
     loginUser: (username: string, password: string) => Promise<void>
     tokens?: LoginResponse
     decodedToken?: TokenParsed
+    setTokens: React.Dispatch<React.SetStateAction<LoginResponse>>
 }
 
 type User = {
@@ -36,15 +37,25 @@ type TokenParsed = {
 const initialState: AuthProviderState = {
     loginUser: async () => { },
     tokens: {},
+    setTokens: () => { },
 }
 
 export const AuthProviderContext =
-    createContext < AuthProviderState > (initialState)
+    createContext<AuthProviderState>(initialState)
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const { toast } = useToast()
-    const [tokens, setTokens] = useState < LoginResponse > ({})
-    const [decodedToken, setDecodedToken] = useState < TokenParsed | undefined > ()
+    const [tokens, setTokens] = useState<LoginResponse>({
+        token: localStorage.getItem('token') ?? '',
+        refresh: localStorage.getItem('refresh') ?? '',
+    })
+    const decodedToken: TokenParsed | undefined = useMemo(() => {
+        const decoded: TokenParsed | undefined = tokens?.token
+            ? jwtDecode(tokens?.token ?? '')
+            : undefined
+        console.log(decoded)
+        return decoded
+    }, [tokens?.token])
     const config = useGetConfig()
     const navigate = useNavigate()
     const loginUser = async (username: string, password: string) => {
@@ -63,9 +74,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         )
         const data = (await response.json()) as LoginResponse
         if (response.status === 200) {
-            const decodedToken: TokenParsed = await jwtDecode(data.token ?? '')
-            console.table(decodedToken.user)
-            setDecodedToken(decodedToken)
             setTokens(data)
             localStorage.setItem('token', data.token ?? '')
             localStorage.setItem('refresh', data.refresh ?? '')
@@ -83,6 +91,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loginUser,
         tokens,
         decodedToken,
+        setTokens,
     }
 
     return (

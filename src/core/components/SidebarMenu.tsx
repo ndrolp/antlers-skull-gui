@@ -6,7 +6,7 @@ import {
     CommandSeparator,
 } from '@/components/ui/command'
 import { SidebarMenuItem } from './SidebarMenuItem'
-import { AppWindow, IdCard, Settings, User, UserPen } from 'lucide-react'
+import { AppWindow, Gauge, IdCard, Settings, User, UserPen } from 'lucide-react'
 
 export default function SidebarMenu() {
     return (
@@ -14,6 +14,7 @@ export default function SidebarMenu() {
             <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup heading='Management'>
+                    <SidebarMenuItem Icon={Gauge} text='Dashboard' to='/' />
                     <SidebarMenuItem Icon={User} text='Users' to='/users' />
                     <SidebarMenuItem
                         Icon={AppWindow}

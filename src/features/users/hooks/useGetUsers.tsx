@@ -1,33 +1,41 @@
-import useAxios from '@/core/hooks/useAxios'
 import { useEffect, useState } from 'react'
 import { User } from '../types/user'
+import usePaginatedResponse from '@/core/hooks/usePaginatedResponse'
+import { PaginatedData } from '@/core/types/paginatedData'
 
 export interface UseGetUserProps {
-    limit?: number
-    page?: number
     filter?: User
+    page?: number
 }
 
 export default function useGetUsers({
     filter,
-    limit = 10,
     page = 1,
 }: UseGetUserProps = {}) {
-    const axios = useAxios()
-    const [users, setUsers] = useState < Array < User >> ([])
-    const getUsers = async () => {
-        if (!axios) return []
-        let params = { page, limit }
-        if (filter) params = { ...params, ...filter }
-        const data = await axios.get < Array < User >> ('/users/', { params })
-        console.table(data)
-        setUsers(data.data)
-    }
+    const { data, loading, error } = usePaginatedResponse <
+        User[],
+        undefined,
+        object
+    > ({
+        url: '/users/',
+        params: filter,
+        page: 1,
+    })
+
+    const [paginatedData, setPaginatedData] = useState < PaginatedData < User[] >> (
+        {},
+    )
 
     useEffect(() => {
-        if (!axios) return
-        getUsers()
-    }, [axios])
+        const currentData = paginatedData
+        if (!data) return
 
-    return { users }
+        const newPaginatedData: PaginatedData<User[]> = { ...currentData }
+        newPaginatedData[page] = data
+
+        setPaginatedData(newPaginatedData)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data])
+
+    return { users: paginatedData, loading, error }
 }

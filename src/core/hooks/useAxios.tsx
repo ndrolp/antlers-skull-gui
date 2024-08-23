@@ -15,7 +15,6 @@ const useAxios = (
 
     const axiosInstance: AxiosInstance | undefined = useMemo(() => {
         const apiVersion = version && useApi ? `/v${version}` : ''
-        console.table(tokens)
         const api = useApi ? '/api' : ''
         if (!config?.url) return undefined
         return axios.create({

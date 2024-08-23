@@ -14,6 +14,9 @@ export default function useGetConfig(iterator = 0) {
             window.ipcRenderer.invoke('get-config', 'ping').then(result => {
                 setConfig(result)
             })
+        } else {
+            //TODO: Use environment variables for the configuration on the web
+            setConfig({ url: 'http://localhost:3000' })
         }
     }, [iterator])
 

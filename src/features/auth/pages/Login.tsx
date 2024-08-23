@@ -16,7 +16,7 @@ import ThemeButton from '@/core/components/ThemeButton'
 export const Login = () => {
     const isElectron = useIsElectron()
     return (
-        <div className=' p-10 bg-red grid place-items-center w-full h-svh'>
+        <div className=' p-5 bg-red grid place-items-center w-full h-svh'>
             <div className='fixed top-2 right-2 flex gap-2'>
                 {isElectron ? (
                     <Dialog>
@@ -37,7 +37,7 @@ export const Login = () => {
                 )}
                 <ThemeButton />
             </div>
-            <Card className='min-w-[25%]'>
+            <Card className='min-w-[98%]  md:min-w-[400px] lg:max-w-[35%] xl:max-w-[35%]'>
                 <CardHeader>
                     <CardTitle>Login</CardTitle>
                 </CardHeader>

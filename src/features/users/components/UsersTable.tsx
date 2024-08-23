@@ -1,3 +1,12 @@
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/components/ui/pagination'
 import { DataTable } from '@/core/components/DataTable'
 import usersColumns from '../dataModels'
 import useGetUsers from '../hooks/useGetUsers'
@@ -10,7 +19,26 @@ export const UsersTable = () => {
     return (
         <div>
             <DataTable data={users[page] ?? []} columns={usersColumns} />
-            {loading ? <LoadingBar /> : ''}
+            {loading ? (
+                <LoadingBar />
+            ) : (
+                <Pagination className='mt-2'>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href='#' />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href='#'>1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href='#' />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            )}
         </div>
     )
 }

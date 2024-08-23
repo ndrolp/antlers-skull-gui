@@ -7,7 +7,7 @@ export default function Home() {
         <div>
             <Button
                 onClick={() => {
-                    axios.post('/users')
+                    axios?.post('/users') ?? undefined
                 }}
             >
                 TestAxios

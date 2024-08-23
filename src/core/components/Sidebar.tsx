@@ -8,7 +8,7 @@ import { AuthProviderContext } from '../providers/auth-provider'
 export default function Sidebar() {
     const { logout } = useContext(AuthProviderContext)
     return (
-        <div className='fixed flex flex-col w-[300px]  min-h-screen min-w-[300px]'>
+        <div className='fixed flex flex-col w-[300px]  min-h-screen min-w-[300px] border-r'>
             <SidebarUser />
             <div className='grow p-4'>
                 <SidebarMenu />

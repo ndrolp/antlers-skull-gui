@@ -38,11 +38,6 @@ const useAxios = (
                     },
                 )
 
-                localStorage.setItem(
-                    'authTokens',
-                    JSON.stringify(response.data),
-                )
-
                 setTokens({
                     ...tokens,
                     token: response.data.token,
@@ -55,6 +50,7 @@ const useAxios = (
             }
             return req
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [axiosInstance])
 
     return axiosInstance

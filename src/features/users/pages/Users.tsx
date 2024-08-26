@@ -1,22 +1,14 @@
 import { Button } from '@/components/ui/button'
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from '@/components/ui/pagination'
 import LoadingBar from '@/core/components/LoadingBar'
 import { UsersTable } from '../components/UsersTable'
 import { UserRoundPlus } from 'lucide-react'
 import { useState } from 'react'
 import useGetUsers from '../hooks/useGetUsers'
 import { Input } from '@/components/ui/input'
+import Paginator from '@/core/components/Paginator'
 
 export const Users = () => {
-    const [page] = useState(1)
+    const [page, setPage] = useState(1)
     const { users, loading } = useGetUsers({ page })
     return (
         <div className='flex flex-col gap-2'>
@@ -30,22 +22,12 @@ export const Users = () => {
             {loading ? (
                 <LoadingBar />
             ) : (
-                <Pagination className='mt-2'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href='#' />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href='#'>1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href='#' />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+                <Paginator
+                    page={page}
+                    setPage={setPage}
+                    maxSize={30}
+                    pageSize={20}
+                />
             )}
         </div>
     )

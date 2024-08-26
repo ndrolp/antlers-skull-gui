@@ -12,17 +12,17 @@ export default function useGetUsers({
     filter,
     page = 1,
 }: UseGetUserProps = {}) {
-    const { data, loading, error } = usePaginatedResponse <
+    const { data, loading, error } = usePaginatedResponse<
         User[],
         undefined,
         object
-    > ({
+    >({
         url: '/users/',
         params: filter,
-        page: 1,
+        page,
     })
 
-    const [paginatedData, setPaginatedData] = useState < PaginatedData < User[] >> (
+    const [paginatedData, setPaginatedData] = useState<PaginatedData<User[]>>(
         {},
     )
 
@@ -34,8 +34,7 @@ export default function useGetUsers({
         newPaginatedData[page] = data
 
         setPaginatedData(newPaginatedData)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data])
+    }, [data, page])
 
     return { users: paginatedData, loading, error }
 }

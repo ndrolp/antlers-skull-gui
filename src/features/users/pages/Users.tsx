@@ -9,7 +9,7 @@ import Paginator from '@/core/components/Paginator'
 
 export const Users = () => {
     const [page, setPage] = useState(1)
-    const { users, loading } = useGetUsers({ page })
+    const { users, loading, count } = useGetUsers({ page })
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex gap-2'>
@@ -25,7 +25,7 @@ export const Users = () => {
                 <Paginator
                     page={page}
                     setPage={setPage}
-                    maxSize={30}
+                    maxSize={count ?? 0}
                     pageSize={20}
                 />
             )}

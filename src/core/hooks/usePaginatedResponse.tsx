@@ -16,7 +16,7 @@ export type UsePaginatedResponseReturn<TResponse> = {
     loading: boolean
     data: TResponse | undefined
     error: AxiosError | undefined
-    axiosResponse: AxiosResponse<TResponse> | undefined
+    count: number | undefined
 }
 
 export default function usePaginatedResponse<TResponse, TBody, TParams>({
@@ -33,14 +33,22 @@ export default function usePaginatedResponse<TResponse, TBody, TParams>({
 >): UsePaginatedResponseReturn<TResponse> {
     const axios = useAxios()
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<AxiosError | undefined>(undefined)
-    const [axiosResponse, setAxiosResponse] = useState<
-        AxiosResponse<TResponse> | undefined
-    >(undefined)
+    const [error, setError] = useState < AxiosError | undefined > (undefined)
+    type requestResponse = {
+        data: TResponse
+        count: number
+    }
+    const [axiosResponse, setAxiosResponse] = useState <
+        AxiosResponse < requestResponse > | undefined
+        > (undefined)
     const data = useMemo(() => {
-        if (!axiosResponse?.data) return undefined
-        return axiosResponse.data
-    }, [axiosResponse?.data])
+        if (!axiosResponse?.data?.data) return undefined
+        return axiosResponse.data?.data
+    }, [axiosResponse?.data?.data])
+
+    const count = useMemo(() => {
+        return axiosResponse?.data?.count || undefined
+    }, [axiosResponse])
 
     const getData = useCallback(async () => {
         try {
@@ -54,7 +62,7 @@ export default function usePaginatedResponse<TResponse, TBody, TParams>({
             requestOptions.params = { ...params, limit, page }
             requestOptions.data = body
 
-            const response = await axios<TResponse>(url, requestOptions)
+            const response = await axios < TResponse > (url, requestOptions)
             setAxiosResponse(response)
         } catch (error) {
             setError(error as AxiosError)
@@ -68,5 +76,5 @@ export default function usePaginatedResponse<TResponse, TBody, TParams>({
         getData()
     }, [url, method, limit, page, body, options, params, getData])
 
-    return { loading, data, axiosResponse, error }
+    return { loading, data, error, count }
 }

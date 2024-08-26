@@ -101,7 +101,6 @@ export default function Paginator({
                                 <PaginationLink
                                     className='cursor-pointer'
                                     onClick={() => {
-                                        console.log(currentPage)
                                         move('fixed', currentPage)
                                     }}
                                 >

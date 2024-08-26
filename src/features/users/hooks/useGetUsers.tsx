@@ -12,7 +12,7 @@ export default function useGetUsers({
     filter,
     page = 1,
 }: UseGetUserProps = {}) {
-    const { data, loading, error } = usePaginatedResponse<
+    const { count, data, loading, error } = usePaginatedResponse<
         User[],
         undefined,
         object
@@ -36,5 +36,5 @@ export default function useGetUsers({
         setPaginatedData(newPaginatedData)
     }, [data, page])
 
-    return { users: paginatedData, loading, error }
+    return { users: paginatedData, loading, error, count }
 }

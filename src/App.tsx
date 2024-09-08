@@ -1,12 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Login } from './features/auth/pages/Login'
+import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from './core/providers/theme-provider'
-import Layout from './core/components/Layout'
-import Home from './core/pages/Home'
 import { AuthProvider } from './core/providers/auth-provider'
-import { ConfigForm } from './features/auth/components/ConfigForm'
-import { Users } from './features/users/pages/Users'
+import Router from './core/components/Router'
 
 function App() {
     return (
@@ -14,16 +10,7 @@ function App() {
             <BrowserRouter>
                 <Toaster />
                 <AuthProvider>
-                    <Routes>
-                        <Route path='/' element={<Layout />}>
-                            <Route path='/' element={<Home />} />
-                            <Route path='/settings' element={<ConfigForm />} />
-                            <Route path='/users' element={<Users />} />
-                        </Route>
-                    </Routes>
-                    <Routes>
-                        <Route path='/login' element={<Login />} />
-                    </Routes>
+                    <Router />
                 </AuthProvider>
             </BrowserRouter>
         </ThemeProvider>
